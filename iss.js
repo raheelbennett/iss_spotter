@@ -11,7 +11,7 @@ const request = require('request');
  *   - An error, if any (nullable)
  *   - The IP address as a string (null if error). Example: "162.245.144.188"
  */
-const fetchMyIP = function(callback) {
+const fetchMyIP = (callback) => {
   request('https://api.ipify.org?format=json', (error, response, body) => {
 
     if (error) {
@@ -29,7 +29,7 @@ const fetchMyIP = function(callback) {
   });
 };
 
-const fetchCoordsByIP = function(ip, callback) {
+const fetchCoordsByIP = (ip, callback) => {
   request(`http://ipwho.is/${ip}`, (error, response, body) => {
 
     if (error) {
@@ -50,7 +50,7 @@ const fetchCoordsByIP = function(ip, callback) {
 };
 
 
-const fetchISSFlyOverTimes = function(coords, callback) {
+const fetchISSFlyOverTimes = (coords, callback) => {
   request(`https://iss-flyover.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`, (error, response, body) => {
     if (error) {
       callback(error, null);
@@ -79,7 +79,7 @@ const fetchISSFlyOverTimes = function(coords, callback) {
  *   - The fly-over times as an array (null if error):
  *     [ { risetime: <number>, duration: <number> }, ... ]
  */
-const nextISSTimesForMyLocation = function(callback) {
+const nextISSTimesForMyLocation = (callback) => {
   fetchMyIP((error, ip) => { //fetchMyIP only takes one argument, the callack function and returns (error, ip)
     if (error) {
       return callback(error, null);
@@ -99,8 +99,5 @@ const nextISSTimesForMyLocation = function(callback) {
 };
 
 module.exports = {
-  fetchMyIP,
-  fetchCoordsByIP,
-  fetchISSFlyOverTimes,
   nextISSTimesForMyLocation
 };
